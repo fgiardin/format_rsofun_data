@@ -1,6 +1,8 @@
 library(tidyverse)
 library(rsofun)
 
+#---- whc ----
+
 # optimized parameters from previous
 # work
 params_modl <- list(
@@ -10,8 +12,6 @@ params_modl <- list(
   tau_acclim_tempstress = 10,
   par_shape_tempstress  = 0.0
 )
-
-#---- whc ----
 
 whc <- readRDS("data/whc_p-model_driver_data.rds")
 
@@ -24,6 +24,16 @@ output_whc <- rsofun::runread_pmodel_f(
 saveRDS(output_whc, file = "data/whc_p-model_output.rds", compress = "xz")
 
 #---- s0 -----
+
+# optimized parameters from previous
+# work
+params_modl <- list(
+  kphio           = 0.09423773,
+  soilm_par_a     = 0,
+  soilm_par_b     = 0,
+  tau_acclim_tempstress = 10,
+  par_shape_tempstress  = 0.0
+)
 
 s0 <- readRDS("data/s0_p-model_driver_data.rds")
 
