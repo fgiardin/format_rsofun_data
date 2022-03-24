@@ -1,5 +1,11 @@
 library(tidyverse)
 library(purrr)
+library(lubridate)
+
+# The soil water holding capacity (WHC) information provided in file
+# siteinfo_fluxnet2015_sofun+whc.csv was created by David Sandoval Calle
+# (Imperial College) based on Soilgrids data
+# (see Stocker et al., 2018 Nature Geoscience).
 
 # load data
 s0 <- readRDS("data/df_S0.RDS")
@@ -8,12 +14,31 @@ load("data-raw/df_drivers_fluxnet2015_allsites.Rdata")
 df <- df_drivers_fluxnet2015_allsites
 rm("df_drivers_fluxnet2015_allsites")
 
-# rename the columns of the rsofun data
+# preprocess original data - to now rsofun format
 df <- df %>%
-  rename(
-    'site_info' = 'siteinfo',
-    'params_soil' = 'df_soiltexture'
-  )
+  dplyr::select(sitename, forcing) %>%
+  unnest(forcing) %>%
+  dplyr::filter(!(month(date)==2 & mday(date)==29)) %>%
+
+  ## model requires flux per seconds now
+  mutate(prec = prec / (60*60*24), ppfd = ppfd / (60*60*24)) %>%
+
+  ## assuming all precipitation in liquid form
+  mutate(rainf = prec, snowf = 0) %>%
+
+  ## required for new version, but not used because
+  mutate(tmin = temp, tmax = temp) %>%
+
+  group_by(sitename) %>%
+  nest() %>%
+  rename(forcing = data) %>%
+  right_join(
+    df %>%
+      dplyr::select(-forcing),
+    by = "sitename"
+  ) %>%
+  ungroup() %>%
+  rename(site_info = siteinfo, params_soil = df_soiltexture)
 
 # rename file
 df_orig <- df
