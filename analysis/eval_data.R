@@ -2,10 +2,9 @@
 # copy from Rmarkdown Beni
 
 library(tidyverse)
-#devtools::install_github("stineb/rbeni")
-library(rbeni)
 source("R/eval_sofun.R")
 source("R/get_stats.R")
+source("R/analysis_modobs2.R")
 
 # load ugly data
 load("data-raw/obs_eval_fluxnet2015.Rdata")
@@ -37,7 +36,15 @@ out_eval <- eval_sofun(
 )
 
 p <- out_eval$gpp$fluxnet$data$meandoydf_byclim %>%
-  dplyr::filter(climatezone %in% c("Aw south", "BSk north", "Cfa north", "Cfb north", "Cfb south", "Csa north", "Csb north", "Dfb north", "Dfc north")) %>%
+  dplyr::filter(climatezone %in% c("Aw south",
+                                   "BSk north",
+                                   "Cfa north",
+                                   "Cfb north",
+                                   "Cfb south",
+                                   "Csa north",
+                                   "Csb north",
+                                   "Dfb north",
+                                   "Dfc north")) %>%
   dplyr::filter(koeppen_code != "-") %>%
   pivot_longer(c(obs_mean, mod_mean), names_to = "source", values_to = "gpp") %>%
   ggplot() +
