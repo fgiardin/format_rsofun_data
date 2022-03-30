@@ -20,14 +20,23 @@ df <- df %>%
   unnest(forcing) %>%
   dplyr::filter(!(month(date)==2 & mday(date)==29)) %>%
 
-  ## model requires flux per seconds now
-  mutate(prec = prec / (60*60*24), ppfd = ppfd / (60*60*24)) %>%
+  # model requires flux per seconds now
+  # mutate(
+  #   prec = prec / (60*60*24),
+  #   ppfd = ppfd / (60*60*24)
+  #   ) %>%
 
   ## assuming all precipitation in liquid form
-  mutate(rainf = prec, snowf = 0) %>%
+  mutate(
+    rainf = prec,
+    snowf = 0
+    ) %>%
 
   ## required for new version, but not used because
-  mutate(tmin = temp, tmax = temp) %>%
+  mutate(
+    tmin = temp,
+    tmax = temp
+    ) %>%
 
   group_by(sitename) %>%
   nest() %>%
@@ -38,7 +47,10 @@ df <- df %>%
     by = "sitename"
   ) %>%
   ungroup() %>%
-  rename(site_info = siteinfo, params_soil = df_soiltexture)
+  rename(
+    site_info = siteinfo,
+    params_soil = df_soiltexture
+    )
 
 # rename file
 df_orig <- df
