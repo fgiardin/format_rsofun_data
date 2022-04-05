@@ -2,6 +2,20 @@ library(tidyverse)
 library(purrr)
 library(lubridate)
 
+#---- read in base data ----
+
+flue_sites <- readr::read_csv( "data-raw/flue_stocker18nphyt.csv" ) %>%
+  dplyr::filter( !is.na(cluster) ) %>%
+  distinct(site) %>%
+  pull(site)
+
+# calib_sites <- ingestr::siteinfo_fluxnet2015 %>%
+#   dplyr::filter(!(sitename %in% c("DE-Akm", "IT-Ro1"))) %>%
+#   dplyr::filter(sitename != "FI-Sod") %>%
+#   dplyr::filter( c4 %in% c(FALSE, NA) & classid != "CRO" & classid != "WET" ) %>%
+#   dplyr::filter( sitename %in% flue_sites ) %>%
+#   pull(sitename)
+
 # The soil water holding capacity (WHC) information provided in file
 # siteinfo_fluxnet2015_sofun+whc.csv was created by David Sandoval Calle
 # (Imperial College) based on Soilgrids data
@@ -11,8 +25,14 @@ library(lubridate)
 s0 <- readRDS("data/df_S0.RDS")
 
 load("data-raw/df_drivers_fluxnet2015_allsites.Rdata")
-df <- df_drivers_fluxnet2015_allsites
+df <- df_drivers_fluxnet2015_allsites %>%
+  filter(
+    sitename %in% flue_sites
+  )
+
 rm("df_drivers_fluxnet2015_allsites")
+
+#---- process base data ----
 
 # preprocess original data - to now rsofun format
 df <- df %>%
