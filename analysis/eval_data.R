@@ -20,7 +20,7 @@ whc_output <- readRDS("data/whc_p-model_output.rds")
 # set evaluation settings
 settings_eval <- list(
   benchmark = list( gpp = c("fluxnet") ),
-  sitenames = unique(output$sitename),
+  sitenames = unique(whc_output$sitename),
   agg = 8
 )
 

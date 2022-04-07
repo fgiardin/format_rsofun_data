@@ -24,13 +24,13 @@ flue_sites <- readr::read_csv( "data-raw/flue_stocker18nphyt.csv" ) %>%
 # load data
 s0 <- readRDS("data/df_S0.RDS")
 
-load("data-raw/df_drivers_fluxnet2015_allsites.Rdata")
-df <- df_drivers_fluxnet2015_allsites %>%
+load("data-raw/df_drivers_fluxnet2015.Rdata")
+df <- df_drivers_fluxnet2015 %>%
   filter(
     sitename %in% flue_sites
   )
 
-rm("df_drivers_fluxnet2015_allsites")
+rm("df_drivers_fluxnet2015")
 
 #---- process base data ----
 
@@ -41,15 +41,15 @@ df <- df %>%
   dplyr::filter(!(month(date)==2 & mday(date)==29)) %>%
 
   # model requires flux per seconds now
-  # mutate(
-  #   prec = prec / (60*60*24),
-  #   ppfd = ppfd / (60*60*24)
-  #   ) %>%
+   mutate(
+     prec = prec / (60*60*24),
+     ppfd = ppfd / (60*60*24)
+     ) %>%
 
   ## assuming all precipitation in liquid form
   mutate(
-    rainf = prec,
-    snowf = 0
+    rain = prec,
+    snow = 0
     ) %>%
 
   ## required for new version, but not used because
