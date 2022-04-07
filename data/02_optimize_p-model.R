@@ -1,6 +1,7 @@
 library(dplyr)
 library(ingestr)
 library(rsofun)
+source("R/cost_function.R")
 
 #---- load data ----
 
@@ -41,7 +42,7 @@ settings_calib <- list(
   method      = "bayesiantools",
   targetvars  = c("gpp"),
   timescale   = list(targets_obs = "d"),
-  metric      = cost_rmse_fullstack,
+  metric      = cost_rmse_kphio_s0,
   control = list(
     sampler = "DEzs",
     settings = list(
@@ -50,9 +51,7 @@ settings_calib <- list(
     )
   ),
   par = list(
-    kphio = list(lower=0.04, upper=0.1, init = 0.05),
-    a = list(lower=0, upper=5, init = 3.5),
-    b = list(lower=1, upper=5, init=3.5)
+    kphio = list(lower=0.04, upper=0.1, init = 0.05)
   )
 )
 
@@ -75,7 +74,7 @@ print(pars)
 
 # save paramteres
 saveRDS(
-  parss,
+  pars,
   file = "data/s0_p-model_parameters.rds",
   compress = "xz"
   )

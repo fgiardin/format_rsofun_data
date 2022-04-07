@@ -2,7 +2,7 @@
 
 # devtools::install_github("computationales/rsofun")
 # devtools::install_github("stineb/LSD")
-library(tidyverse)
+library(Matrix)
 library(lubridate)
 library(rsofun)
 library(LSD)
