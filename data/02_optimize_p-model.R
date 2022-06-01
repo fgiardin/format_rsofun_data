@@ -1,7 +1,7 @@
 library(dplyr)
 library(ingestr)
-library(rsofun)
-source("R/cost_function.R")
+library(rsofun)   # using tag 4.3
+source("./R/cost_function.R")
 
 #---- load data ----
 
@@ -46,12 +46,12 @@ settings_calib <- list(
   control = list(
     sampler = "DEzs",
     settings = list(
-      burnin = 500,
+      burnin = 500,  # burns first 500 iterations as they are not important (iterations are somehow interconnected)
       iterations = 3000
     )
   ),
   par = list(
-    kphio = list(lower=0.04, upper=0.1, init = 0.05)
+    kphio = list(lower=0.04, upper=0.1, init = 0.05)  # difference with other calibration: only kphio, not a and b (set to zero)
   )
 )
 

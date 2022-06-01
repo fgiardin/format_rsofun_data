@@ -1,5 +1,5 @@
 library(tidyverse)
-library(rsofun)
+library(rsofun)   # using tag 4.3
 
 #---- whc ----
 
@@ -25,7 +25,7 @@ saveRDS(output_whc, file = "data/whc_p-model_output.rds", compress = "xz")
 
 #---- s0 -----
 
-pars <- readRDS("data/s0_p-model_parameters.rds")
+pars <- readRDS("data/s0_p-model_parameters.rds")  # read from calibration output (script 02)
 
 # optimized parameters from previous
 # work
@@ -46,3 +46,4 @@ output_s0 <- rsofun::runread_pmodel_f(
 )
 
 saveRDS(output_s0, file = "data/s0_p-model_output.rds", compress = "xz")
+
