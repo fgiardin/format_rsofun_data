@@ -17,6 +17,10 @@ flue_sites <- readr::read_csv( "data-raw/flue_stocker18nphyt.csv" ) %>%
   distinct(site) %>%
   pull(site)
 
+# flue_sites <- c(flue_sites, "AU-Cpr", "AU-GWW") # add sites for Wang Han
+# # possible to just add them because they are in the drivers df
+# # BUT: need to recalibrate
+
 # select calibrations sites
 calibsites <- siteinfo_fluxnet2015 %>%
   dplyr::filter(

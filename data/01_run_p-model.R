@@ -25,12 +25,12 @@ saveRDS(output_whc, file = "data/whc_p-model_output.rds", compress = "xz")
 
 #---- s0 -----
 
-pars <- readRDS("data/s0_p-model_parameters.rds")  # read from calibration output (script 02)
+pars <- readRDS("data/old_output (without 2 new australian sites)/s0_p-model_parameters.rds")  # read from calibration output (script 02)
 
 # optimized parameters from previous
 # work
 params_modl <- list(
-  kphio           = pars$par,
+  kphio           = pars$par,   # 0.0891875
   soilm_par_a     = 0,
   soilm_par_b     = 0,
   tau_acclim_tempstress = 10,
